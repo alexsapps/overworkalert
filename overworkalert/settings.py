@@ -1,4 +1,5 @@
-from overworkalert import *
+import idledetectors
+import alerters
 
 # override default settings here
 
@@ -9,8 +10,13 @@ SMTP_HOST = 'smtp.example.org'
 # uncomment below lines to override default lettings
 
 # the algorithm that detects if you're idle
-# IDLE_DETECTOR = isIdle_gnomescreensaver
-# IDLE_DETECTOR = isIdle_xprintidle
+# IDLE_DETECTOR = idledetectors.isIdle_gnomescreensaver
+# IDLE_DETECTOR = idledetectors.isIdle_osx_screenLocked
+
+# aleter / popup
+#  function that shows a real time notification on your screen
+# ALERTER = alerters.alert_gnomePopup
+# ALERTER = alerters.alert_osxPopup
 
 # how many seconds of continual sitting before the desk job worker
 # gets a non-distracting email reminding them to stand up
@@ -30,7 +36,3 @@ SMTP_HOST = 'smtp.example.org'
 # how long between polls of idleness.  frequent polls = more accurate
 # for some detectors.  measured in seconds.
 # INTERVAL = 15  # 15 seconds
-
-# popup settings
-# POPUP_CMD = ['notify-send','Overworking Warning','Get up and walk around.']
-

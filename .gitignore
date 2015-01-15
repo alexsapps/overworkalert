@@ -1,6 +1,14 @@
 # user properties
 settings.py
 
+# virtual environment
+pyvenv.cfg
+venv/
+python
+
+# i hate apple
+.DS_Store
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
