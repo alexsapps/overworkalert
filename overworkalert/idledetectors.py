@@ -58,6 +58,5 @@ def isIdle_osx_screensaver(interval):
 def isIdle_osx_screenLocked(interval):
     import Quartz
     d=Quartz.CGSessionCopyCurrentDictionary()
-    return d and d.get("CGSSessionScreenIsLocked", 0) == 0 and \
-        d.get("kCGSSessionOnConsoleKey", 0) == 1
+    return d and d.get("CGSSessionScreenIsLocked", 0)
 

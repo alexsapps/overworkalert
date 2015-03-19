@@ -8,6 +8,7 @@ if not sys.prefix == venvpath:
     print (sys.prefix)
     print (venvpath)
 
+import datetime
 import subprocess
 import smtplib
 import traceback
@@ -21,9 +22,11 @@ from defaults import *  # read default settings from defaults.py
 from settings import *  # read user settings from settings.py
 
 def popup(alerter):
+    print ("Showing alert.")
     alerter()
 
 def email():
+    print ("Sending email.")
     msg = "You've been working too hard.  Please get up and walk around."
     msg = MIMEText(msg)
 
@@ -49,13 +52,21 @@ def runMonitor(idleDetector, alerter, howLongIsGone, interval, emailTime, popupT
     didEmail = False
     popups = 0
 
+    a = datetime.datetime.now()
     while True:
-        idle = idleDetector(interval)
-
-        if idle:
-            goneCount += 1
+        sleep_seconds = (datetime.datetime.now() - a).total_seconds()
+        a = datetime.datetime.now()
+        if sleep_seconds > interval + 30:
+            # computer must have been put to sleep.  assume user
+            # was not working regardless of idleDetector
+            print ("adding sleep time to goneCount")
+            goneCount += int(sleep_seconds / interval);
         else:
-            goneCount = 0
+            idle = idleDetector(interval)
+            if idle:
+                goneCount += 1
+            else:
+                goneCount = 0
 
         if goneCount * interval > howLongIsGone:
             sittingPollCount = 0
@@ -85,7 +96,9 @@ def runMonitor(idleDetector, alerter, howLongIsGone, interval, emailTime, popupT
                     popups += 1
 
         sleep(interval)  # sleep for `interval` seconds
-        
+
+            
+
 def run():
     runMonitor(IDLE_DETECTOR, ALERTER, HOW_LONG_IS_GONE, INTERVAL,
             EMAIL_WARNING, POPUP_WARNING, POPUP_INTERVAL)
